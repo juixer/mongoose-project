@@ -1,4 +1,4 @@
-import { Types } from "mongoose";
+import { Date, Types } from "mongoose";
 
 export type Guardian = {
   fatherName: string;

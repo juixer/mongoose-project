@@ -101,7 +101,7 @@ const createStudentValidationSchema = z.object({
       gender: z.enum(['Male', 'Female', 'Other'], {
         message: '{value} is not a valid gender.',
       }),
-      dateOfBirth: z.date().optional(),
+      dateOfBirth: z.string().optional(),
       email: z
         .string()
         .trim()
