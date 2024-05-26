@@ -93,53 +93,56 @@ const localGuardianValidationSchema = z.object({
 });
 
 // Student schema
-const studentValidationSchema = z.object({
-  id: z
-    .string()
-    .trim()
-    .max(20, { message: 'ID cannot exceed 20 characters.' })
-    .nonempty({ message: 'ID is required.' }),
-  name: userNameValidationSchema,
-  gender: z
-    .enum(['Male', 'Female', 'Other'], {
-      message: '{value} is not a valid gender.',
+const createStudentValidationSchema = z.object({
+  body: z.object({
+    password: z.string().max(20).optional(),
+    student: z.object({
+      name: userNameValidationSchema,
+      gender: z.enum(['Male', 'Female', 'Other'], {
+        message: '{value} is not a valid gender.',
+      }),
+      dateOfBirth: z.date().optional(),
+      email: z
+        .string()
+        .trim()
+        .max(50, { message: 'Email cannot exceed 50 characters.' })
+        .email({ message: 'Email must be valid.' })
+        .nonempty({ message: 'Email is required.' }),
+      contactNumber: z
+        .string()
+        .trim()
+        .max(15, { message: 'Contact number cannot exceed 15 characters.' })
+        .nonempty({ message: 'Contact number is required.' }),
+      emergencyContactNo: z
+        .string()
+        .trim()
+        .max(15, {
+          message: 'Emergency contact number cannot exceed 15 characters.',
+        })
+        .nonempty({ message: 'Emergency contact number is required.' }),
+      bloodGroup: z
+        .enum(['A+', 'A-', 'AB+', 'AB-', 'B+', 'B-', 'O+', 'O-'])
+        .optional(),
+      presentAddress: z
+        .string()
+        .trim()
+        .max(100, { message: 'Present address cannot exceed 100 characters.' })
+        .nonempty({ message: 'Present address is required.' }),
+      permanentAddress: z
+        .string()
+        .trim()
+        .max(100, {
+          message: 'Permanent address cannot exceed 100 characters.',
+        })
+        .nonempty({ message: 'Permanent address is required.' }),
+      guardian: guardianValidationSchema,
+      localGuardian: localGuardianValidationSchema,
+      profileImg: z.string().trim().optional(),
+      admissionSemester: z.string()
     }),
-  dateOfBirth: z.string().trim().optional(),
-  email: z
-    .string()
-    .trim()
-    .max(50, { message: 'Email cannot exceed 50 characters.' })
-    .email({ message: 'Email must be valid.' })
-    .nonempty({ message: 'Email is required.' }),
-  contactNumber: z
-    .string()
-    .trim()
-    .max(15, { message: 'Contact number cannot exceed 15 characters.' })
-    .nonempty({ message: 'Contact number is required.' }),
-  emergencyContactNo: z
-    .string()
-    .trim()
-    .max(15, {
-      message: 'Emergency contact number cannot exceed 15 characters.',
-    })
-    .nonempty({ message: 'Emergency contact number is required.' }),
-  bloodGroup: z
-    .enum(['A+', 'A-', 'AB+', 'AB-', 'B+', 'B-', 'O+', 'O-'])
-    .optional(),
-  presentAddress: z
-    .string()
-    .trim()
-    .max(100, { message: 'Present address cannot exceed 100 characters.' })
-    .nonempty({ message: 'Present address is required.' }),
-  permanentAddress: z
-    .string()
-    .trim()
-    .max(100, { message: 'Permanent address cannot exceed 100 characters.' })
-    .nonempty({ message: 'Permanent address is required.' }),
-  guardian: guardianValidationSchema,
-  localGuardian: localGuardianValidationSchema,
-  profileImg: z.string().trim().optional(),
-  isActive: z.enum(['active', 'blocked']).default('active'),
+  }),
 });
 
-export default studentValidationSchema;
+export const studentValidations = {
+createStudentValidationSchema,
+};
