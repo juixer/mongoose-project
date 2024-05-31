@@ -204,6 +204,10 @@ const studentSchema = new Schema<Student>(
     },
     profileImg: { type: String, trim: true },
     admissionSemester: { type: Schema.Types.ObjectId, ref: 'AcademicSemester' },
+    academicDepartment: {
+      type: Schema.Types.ObjectId,
+      ref: 'Academic-Department',
+    },
   },
   {
     timestamps: true,

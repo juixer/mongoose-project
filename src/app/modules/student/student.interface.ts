@@ -1,4 +1,4 @@
-import { Date, Types } from "mongoose";
+import { Date, Types } from 'mongoose';
 
 export type Guardian = {
   fatherName: string;
@@ -37,5 +37,6 @@ export interface Student {
   guardian: Guardian;
   localGuardian: LocalGuardian;
   profileImg?: string;
-  admissionSemester : Types.ObjectId;
+  admissionSemester: Types.ObjectId;
+  academicDepartment: Types.ObjectId;
 }
