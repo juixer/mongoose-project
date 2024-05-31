@@ -203,7 +203,14 @@ const studentSchema = new Schema<Student>(
       required: [true, 'Local guardian information is required.'],
     },
     profileImg: { type: String, trim: true },
-    admissionSemester: { type: Schema.Types.ObjectId, ref: 'AcademicSemester' },
+    admissionSemester: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicSemester',
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     academicDepartment: {
       type: Schema.Types.ObjectId,
       ref: 'Academic-Department',
@@ -213,5 +220,7 @@ const studentSchema = new Schema<Student>(
     timestamps: true,
   },
 );
+
+
 
 export const StudentModel = model<Student>('Student', studentSchema);

@@ -40,14 +40,15 @@ const userSchema = new Schema<TUser>(
 // pre save middleware hook
 userSchema.pre('save', async function (next) {
   const user = this;
-  user.password = await bcrypt.hash(user.password, 
-    Number(config.bcrypt_salt));
+  user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt));
   next();
 });
 
-userSchema.post('save', function (doc,next){
-    doc.password = '';
-    next();
-})
+userSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+
 
 export const UserModel = model<TUser>('user', userSchema);

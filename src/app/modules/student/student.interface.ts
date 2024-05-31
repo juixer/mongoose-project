@@ -38,5 +38,6 @@ export interface Student {
   localGuardian: LocalGuardian;
   profileImg?: string;
   admissionSemester: Types.ObjectId;
+  isDeleted?: boolean;
   academicDepartment: Types.ObjectId;
 }
