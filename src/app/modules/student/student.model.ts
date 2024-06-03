@@ -159,7 +159,6 @@ const studentSchema = new Schema<Student>(
       type: String,
       required: [true, 'Email is required.'],
       unique: true,
-      trim: true,
       maxlength: [50, 'Email cannot exceed 50 characters.'],
       // validate: {
       //   validator: (value : string) => validator.isEmail(value),
