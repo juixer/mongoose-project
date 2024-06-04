@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const createFacultyValidationSchema = z.object({
+const createAcademicFacultyValidationSchema = z.object({
   body: z.object({
     name: z.string({
       invalid_type_error: 'Academic Faculty must be string',
@@ -8,7 +8,7 @@ const createFacultyValidationSchema = z.object({
   }),
 });
 
-const updateFacultyValidationSchema = z.object({
+const updateAcademicFacultyValidationSchema = z.object({
   body: z.object({
     name: z.string({
       invalid_type_error: 'Academic Faculty must be string',
@@ -16,7 +16,7 @@ const updateFacultyValidationSchema = z.object({
   }),
 });
 
-export const FacultyValidations = {
-  createFacultyValidationSchema,
-  updateFacultyValidationSchema,
+export const AcademicFacultyValidations = {
+  createAcademicFacultyValidationSchema,
+  updateAcademicFacultyValidationSchema,
 };
