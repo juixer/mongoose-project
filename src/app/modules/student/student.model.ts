@@ -157,13 +157,8 @@ const studentSchema = new Schema<Student>(
     dateOfBirth: { type: Date, trim: true },
     email: {
       type: String,
-      required: [true, 'Email is required.'],
+      required: [true, 'Email is required'],
       unique: true,
-      maxlength: [50, 'Email cannot exceed 50 characters.'],
-      // validate: {
-      //   validator: (value : string) => validator.isEmail(value),
-      //   message: '{VALUE} is not a valid email.',
-      // }
     },
     contactNumber: {
       type: String,
@@ -220,6 +215,8 @@ const studentSchema = new Schema<Student>(
   },
 );
 
-
-
+studentSchema.statics.isUserExists = async function (id: string) {
+  const existingUser = await StudentModel.findOne({ id });
+  return existingUser;
+};
 export const StudentModel = model<Student>('Student', studentSchema);

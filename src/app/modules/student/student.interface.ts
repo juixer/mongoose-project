@@ -1,4 +1,4 @@
-import { Date, Types } from 'mongoose';
+import { Date, Model, Types } from 'mongoose';
 
 export type Guardian = {
   fatherName: string;
@@ -40,4 +40,9 @@ export interface Student {
   admissionSemester: Types.ObjectId;
   isDeleted?: boolean;
   academicDepartment: Types.ObjectId;
+}
+
+export interface FacultyModel extends Model<Student> {
+  // eslint-disable-next-line no-unused-vars
+  isUserExists(id: string): Promise<Student | null>;
 }

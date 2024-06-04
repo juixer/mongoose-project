@@ -102,12 +102,7 @@ const createStudentValidationSchema = z.object({
         message: '{value} is not a valid gender.',
       }),
       dateOfBirth: z.string().optional(),
-      email: z
-        .string()
-        .trim()
-        .max(50, { message: 'Email cannot exceed 50 characters.' })
-        .email({ message: 'Email must be valid.' })
-        .nonempty({ message: 'Email is required.' }),
+      email: z.string().email(),
       contactNumber: z
         .string()
         .trim()
