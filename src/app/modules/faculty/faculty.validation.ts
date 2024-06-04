@@ -3,13 +3,24 @@ import { BloodGroup, Gender } from './faculty.constant';
 const createUserNameValidationSchema = z.object({
   firstName: z
     .string()
-    .min(1)
-    .max(20)
-    .refine((value) => /^[A-Z]/.test(value), {
-      message: 'First Name must start with a capital letter',
-    }),
-  middleName: z.string(),
-  lastName: z.string(),
+    .trim()
+    .max(15, { message: 'First name cannot exceed 15 characters.' })
+    .regex(/^[A-Z][a-z]*$/, { message: 'First name must be capitalized.' })
+    .nonempty({ message: 'First name is required.' }),
+  middleName: z
+    .string()
+    .trim()
+    .max(15, { message: 'Middle name cannot exceed 15 characters.' })
+    .regex(/^[A-Z][a-z]*$/, { message: 'Middle name must be capitalized.' })
+    .optional(),
+  lastName: z
+    .string()
+    .trim()
+    .max(15, { message: 'Last name cannot exceed 15 characters.' })
+    .regex(/^[A-Za-z]+$/, {
+      message: 'Last name must contain only alphabetic characters.',
+    })
+    .nonempty({ message: 'Last name is required.' }),
 });
 
 export const createFacultyValidationSchema = z.object({
@@ -40,20 +51,18 @@ const updateUserNameValidationSchema = z.object({
 
 export const updateFacultyValidationSchema = z.object({
   body: z.object({
-    faculty: z.object({
-      designation: z.string().optional(),
-      name: updateUserNameValidationSchema,
-      gender: z.enum([...Gender] as [string, ...string[]]).optional(),
-      dateOfBirth: z.string().optional(),
-      email: z.string().email().optional(),
-      contactNo: z.string().optional(),
-      emergencyContactNo: z.string().optional(),
-      bloodGroup: z.enum([...BloodGroup] as [string, ...string[]]).optional(),
-      presentAddress: z.string().optional(),
-      permanentAddress: z.string().optional(),
-      profileImg: z.string().optional(),
-      academicDepartment: z.string().optional(),
-    }),
+    designation: z.string().optional(),
+    name: updateUserNameValidationSchema.optional(),
+    gender: z.enum([...Gender] as [string, ...string[]]).optional(),
+    dateOfBirth: z.string().optional(),
+    email: z.string().email().optional(),
+    contactNo: z.string().optional(),
+    emergencyContactNo: z.string().optional(),
+    bloodGroup: z.enum([...BloodGroup] as [string, ...string[]]).optional(),
+    presentAddress: z.string().optional(),
+    permanentAddress: z.string().optional(),
+    profileImg: z.string().optional(),
+    academicDepartment: z.string().optional(),
   }),
 });
 
