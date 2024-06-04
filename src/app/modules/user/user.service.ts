@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import config from '../../config';
-import { AcademicSemester } from '../academic/academic.model';
+import { AcademicSemester } from '../academic/academic-semester.model';
 import { Student } from '../student/student.interface';
 import { StudentModel } from '../student/student.model';
 import { TUser } from './user.interface';
