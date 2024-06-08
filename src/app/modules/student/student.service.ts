@@ -14,8 +14,6 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
   //   searchTerm = query?.searchTerm as string;
   // }
 
-  
-
   // const searchQuery = StudentModel.find({
   //   $or: searchableFields.map((field) => ({
   //     [field]: { $regex: searchTerm, $options: 'i' },
@@ -72,20 +70,25 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
   // const fieldQuery = await limitQuery.select(fields);
   // return fieldQuery;
 
-  const studentQuery = new QueryBuilder(StudentModel.find(),query).search(searchableFields).filter().sort().paginate().fields();
+  const studentQuery = new QueryBuilder(StudentModel.find(), query)
+    .search(searchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
 
-  const result = await studentQuery.modelQuery
+  const result = await studentQuery.modelQuery;
   return result;
 };
 
 const getSingleStudentFromDB = async (id: string) => {
-  const isStudentExist = await StudentModel.findOne({ id: id });
+  const isStudentExist = await StudentModel.findById(id);
 
   if (!isStudentExist) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Student id is not valid');
   }
 
-  const result = await StudentModel.findOne({ id: id })
+  const result = await StudentModel.findById(id)
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
@@ -97,7 +100,7 @@ const getSingleStudentFromDB = async (id: string) => {
 };
 
 const updateStudentIntoDB = async (id: string, payload: Partial<Student>) => {
-  const isStudentExist = await StudentModel.findOne({ id: id });
+  const isStudentExist = await StudentModel.findById(id);
   if (!isStudentExist) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Student id is not valid');
   }
@@ -122,14 +125,10 @@ const updateStudentIntoDB = async (id: string, payload: Partial<Student>) => {
     }
   }
 
-  const result = await StudentModel.findOneAndUpdate(
-    { id: id },
-    modifiedUpdatedData,
-    {
-      new: true,
-      runValidators: true,
-    },
-  )
+  const result = await StudentModel.findByIdAndUpdate(id, modifiedUpdatedData, {
+    new: true,
+    runValidators: true,
+  })
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
@@ -143,7 +142,7 @@ const updateStudentIntoDB = async (id: string, payload: Partial<Student>) => {
 const deletedStudentFromDB = async (id: string) => {
   const session = await mongoose.startSession();
 
-  const isStudentExist = await StudentModel.findOne({ id: id });
+  const isStudentExist = await StudentModel.findById(id);
 
   if (!isStudentExist) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Student id is not valid');
@@ -161,8 +160,10 @@ const deletedStudentFromDB = async (id: string) => {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete student');
     }
 
-    const deletedUser = await UserModel.findOneAndUpdate(
-      { id },
+    const userID = deletedStudent.user;
+
+    const deletedUser = await UserModel.findByIdAndUpdate(
+      userID,
       { isDeleted: true },
       { new: true, session },
     );

@@ -1,8 +1,16 @@
+import QueryBuilder from '../../builder/QueryBuilder';
+import { AdminSearchableFields } from './admin.constant';
 import { TAdmin } from './admin.interface';
 import { Admin } from './admin.model';
 
-const getAllAdminFromDB = async () => {
-  const result = await Admin.find();
+const getAllAdminFromDB = async (query: Record<string, unknown>) => {
+  const adminQuery = new QueryBuilder(Admin.find(), query)
+    .search(AdminSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+  const result = await adminQuery.modelQuery;
   return result;
 };
 
