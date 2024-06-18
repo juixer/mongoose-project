@@ -59,7 +59,7 @@ const globalErrHandler: ErrorRequestHandler = (err, req, res, next) => {
         message: err?.message,
       },
     ];
-  }
+  } 
 
   return res.status(statusCode).json({
     success: false,

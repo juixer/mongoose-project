@@ -1,7 +1,7 @@
-import { UserModel } from './user.model';
+import { User } from './user.model';
 
 const findLastStudentID = async () => {
-  const lastStudent = await UserModel.findOne(
+  const lastStudent = await User.findOne(
     {
       role: 'student',
     },
@@ -41,10 +41,7 @@ export const generatedStudentID = async (payload: any) => {
 };
 
 const findLastFacultyID = async () => {
-  const lastFaculty = await UserModel.findOne(
-    { role: 'faculty' },
-    { id: 1, _id: 0 },
-  )
+  const lastFaculty = await User.findOne({ role: 'faculty' }, { id: 1, _id: 0 })
     .sort({
       createdAt: -1,
     })
@@ -66,10 +63,7 @@ export const generatedFacultyID = async () => {
 };
 
 const findLastAdminID = async () => {
-  const lastAdmin = await UserModel.findOne(
-    { role: 'admin' },
-    { id: 1, _id: 0 },
-  )
+  const lastAdmin = await User.findOne({ role: 'admin' }, { id: 1, _id: 0 })
     .sort({
       createdAt: -1,
     })

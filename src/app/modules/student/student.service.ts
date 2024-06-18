@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { StudentModel } from './student.model';
 import AppError from '../../errors/AppError';
-import { UserModel } from '../user/user.model';
+import { User } from '../user/user.model';
 import httpStatus from 'http-status';
 import { Student } from './student.interface';
 import QueryBuilder from '../../builder/QueryBuilder';
@@ -89,11 +89,12 @@ const getSingleStudentFromDB = async (id: string) => {
   }
 
   const result = await StudentModel.findById(id)
+  .populate('user')
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
       populate: {
-        path: 'faculty',
+        path: 'name',
       },
     });
   return result;
@@ -162,7 +163,7 @@ const deletedStudentFromDB = async (id: string) => {
 
     const userID = deletedStudent.user;
 
-    const deletedUser = await UserModel.findByIdAndUpdate(
+    const deletedUser = await User.findByIdAndUpdate(
       userID,
       { isDeleted: true },
       { new: true, session },

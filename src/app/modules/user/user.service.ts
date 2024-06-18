@@ -5,7 +5,7 @@ import { AcademicSemester } from '../academic-semester/academic-semester.model';
 import { Student } from '../student/student.interface';
 import { StudentModel } from '../student/student.model';
 import { TUser } from './user.interface';
-import { UserModel } from './user.model';
+import { User } from './user.model';
 import {
   generatedAdminID,
   generatedFacultyID,
@@ -39,7 +39,7 @@ const createStudentIntoDB = async (password: string, payload: Student) => {
     //  set manually generated id
     userData.id = await generatedStudentID(admissionSemester);
     // transition 1
-    const newUser = await UserModel.create([userData], { session });
+    const newUser = await User.create([userData], { session });
 
     //   create a new student
     if (!newUser.length) {
@@ -83,7 +83,7 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
     session.startTransaction();
     userData.id = await generatedFacultyID();
 
-    const newUser = await UserModel.create([userData], { session });
+    const newUser = await User.create([userData], { session });
     if (!newUser.length) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create user');
     }
@@ -118,7 +118,7 @@ const createAdminIntoDB = async (password: string, payload: TAdmin) => {
   try {
     session.startTransaction();
     userData.id = await generatedAdminID();
-    const newUser = await UserModel.create([userData], { session });
+    const newUser = await User.create([userData], { session });
     if (!newUser.length) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create user');
     }
